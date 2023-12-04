@@ -63,7 +63,7 @@ final class JSONFileManagerCache: Cache {
     }
 
     init(name: String) {
-        self.jsonBaseFileName = name
+        jsonBaseFileName = name
     }
 }
 

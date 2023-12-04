@@ -31,8 +31,6 @@ final class AppTests: XCTestCase {
         XCTAssertEqual(found, true, "New todo must be present in the todo list after adding")
     }
 
-
-
     func testTodoManagerDeleteTodoDecreasesCountByOne() {
         let todoManager = TodoManager()
         let newTodoTitle = "new todo title \(UUID())"
@@ -88,6 +86,33 @@ final class AppTests: XCTestCase {
         todoManager.toggleCompletion(at: 0)
 
         XCTAssertEqual(todoManager.todos[0].isCompleted, !oldCompletionStatus, "Toggle must change the completion status of the todo")
+    }
+
+    func testInMemoryCache() {
+        let cache = InMemoryCache()
+
+        let todo1 = Todo("one")
+        let todo2 = Todo("two")
+
+        cache.save(todos: [todo1, todo2])
+
+        let todos = cache.load()
+
+        XCTAssertEqual(todos?.count ?? 0, 2, "Loading should return the correct number of todos saved")
+    }
+
+
+    func testFileSystemCache() {
+        let cache = JSONFileManagerCache(name: "test\(UUID())")
+
+        let todo1 = Todo("one")
+        let todo2 = Todo("two")
+
+        cache.save(todos: [todo1, todo2])
+
+        let todos = cache.load()
+
+        XCTAssertEqual(todos?.count ?? 0, 2, "Loading should return the correct number of todos saved")
     }
 
 }
