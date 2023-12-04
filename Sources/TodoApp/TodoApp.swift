@@ -33,9 +33,7 @@ final class JSONFileManagerCache: Cache {
     var jsonBaseFileName: String
 
     var jsonFileURL: URL {
-        get {
-            return FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(jsonBaseFileName).json")
-        }
+        return FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("\(jsonBaseFileName).json")
     }
 
     static let encoder = JSONEncoder()
@@ -94,9 +92,9 @@ final class TodoManager {
 
     func listTodos() {
         print("📝 Your Todos:")
-        for (i, todo) in todos.enumerated() {
+        for (index, todo) in todos.enumerated() {
             let emoji = todo.isCompleted ? "✅" : "❌"
-            print("  \(i+1). \(emoji) \(todo.title)")
+            print("  \(index+1). \(emoji) \(todo.title)")
         }
     }
 
@@ -134,12 +132,6 @@ final class TodoManager {
 
 }
 
-
-// * The `App` class should have a `func run()` method, this method should perpetually 
-//   await user input and execute commands.
-//  * Implement a `Command` enum to specify user commands. Include cases 
-//    such as `add`, `list`, `toggle`, `delete`, and `exit`.
-//  * The enum should be nested inside the definition of the `App` class
 final class App {
     enum Command {
         case add
@@ -156,12 +148,12 @@ final class App {
         print("What would you like to do? (add, list, toggle, delete, exit): ", terminator: "")
         let commandStr = readLine() ?? ""
         switch commandStr.lowercased() {
-            case "add": return .add
-            case "list": return .list
-            case "toggle": return .toggle
-            case "delete": return .delete
-            case "exit": return .exit
-            default: return .unknown
+        case "add": return .add
+        case "list": return .list
+        case "toggle": return .toggle
+        case "delete": return .delete
+        case "exit": return .exit
+        default: return .unknown
         }
     }
 
@@ -174,7 +166,7 @@ final class App {
                 }
                 print("❗ Index out of range.")
                 return -1
-            } 
+            }
             print("❗ Invalid number.")
         }
 
@@ -188,35 +180,31 @@ final class App {
         while true {
             let command = inputCommand()
             switch command {
-                case .exit:
-                    print("👋 Thanks for using Todo CLI! See you next time!")
-                    return
-                case .add:
-                    print("Enter todo title: ", terminator: "")
-                    todoManager.addTodo(readLine() ?? "")
-                    print("📌 Todo added")
-                case .list: todoManager.listTodos()
-                case .toggle:
-                    todoManager.listTodos()
-                    let index = inputIndex()
-                    if index != -1 {
-                        todoManager.toggleCompletion(at: index)
-                        print("Todo completion status toggled!")
-                    }
-                case .delete:
-                    todoManager.listTodos()
-                    let index = inputIndex()
-                    if index != -1 {
-                        todoManager.deleteTodo(at: index)
-                        print("🗑️ Todo deleted!")
-                    }
-                default:
-                    print("❗ The chosen action is not supported. Please select again!")
+            case .exit:
+                print("👋 Thanks for using Todo CLI! See you next time!")
+                return
+            case .add:
+                print("Enter todo title: ", terminator: "")
+                todoManager.addTodo(readLine() ?? "")
+                print("📌 Todo added")
+            case .list: todoManager.listTodos()
+            case .toggle:
+                todoManager.listTodos()
+                let index = inputIndex()
+                if index != -1 {
+                    todoManager.toggleCompletion(at: index)
+                    print("Todo completion status toggled!")
+                }
+            case .delete:
+                todoManager.listTodos()
+                let index = inputIndex()
+                if index != -1 {
+                    todoManager.deleteTodo(at: index)
+                    print("🗑️ Todo deleted!")
+                }
+            default:
+                print("❗ The chosen action is not supported. Please select again!")
             }
         }
     }
 }
-
-
-// TODO: Write code to set up and run the app.
-// Please find this in main.swift

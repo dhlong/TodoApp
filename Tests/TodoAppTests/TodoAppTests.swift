@@ -4,7 +4,8 @@ import XCTest
 final class AppTests: XCTestCase {
     func testTodoStringRepresentation() {
         let todo = Todo("title")
-        XCTAssertEqual(todo.description, "title", "string representation should match")
+        XCTAssertEqual(todo.description, "title",
+            "string representation should match")
     }
 
     func testTodoManagerAddTodoIncreasesCountByOne() {
@@ -12,7 +13,10 @@ final class AppTests: XCTestCase {
         let count = todoManager.todos.count
         let newTodoTitle = "new todo title 123456789"
         todoManager.addTodo(newTodoTitle)
-        XCTAssertEqual(todoManager.todos.count, count + 1, "add todo must increase the count of todo list by 1")        
+        XCTAssertEqual(
+            todoManager.todos.count, count + 1,
+            "add todo must increase the count of todo list by 1",
+        )
     }
 
     func testTodoManagerAddTodoContainsNewTodo() {
@@ -21,14 +25,13 @@ final class AppTests: XCTestCase {
         todoManager.addTodo(newTodoTitle)
         var found = false
 
-        for todo in todoManager.todos {
-            if todo.title == newTodoTitle {
-                found = true
-                break
-            }
+        for todo in todoManager.todos where todo.title == newTodoTitle {
+            found = true
+            break
         }
 
-        XCTAssertEqual(found, true, "New todo must be present in the todo list after adding")
+        XCTAssertEqual(found, true,
+            "New todo must be present in the todo list after adding")
     }
 
     func testTodoManagerDeleteTodoDecreasesCountByOne() {
@@ -39,7 +42,8 @@ final class AppTests: XCTestCase {
         let oldCount = todoManager.todos.count
         todoManager.deleteTodo(at: 0)
 
-        XCTAssertEqual(todoManager.todos.count, oldCount - 1, "count must decreae by 1 after deleting")
+        XCTAssertEqual(todoManager.todos.count, oldCount - 1,
+            "count must decreae by 1 after deleting")
 
     }
 
@@ -53,17 +57,13 @@ final class AppTests: XCTestCase {
 
         var found = false
 
-        for todo in todoManager.todos {
-            if todo.id == deletedTodo.id {
-                found = true
-                break
-            }
+        for todo in todoManager.todos where todo.id == deletedTodo.id {
+            found = true
+            break
         }
 
         XCTAssertEqual(found, false, "deleted todo must not be present after deleting")
     }
-
-
 
     func testTodoManagerToggleTodoNotChangeCount() {
         let todoManager = TodoManager()
@@ -72,7 +72,8 @@ final class AppTests: XCTestCase {
 
         let oldCount = todoManager.todos.count
 
-        XCTAssertEqual(todoManager.todos.count, oldCount, "count must remain unchanged after toggling")
+        XCTAssertEqual(todoManager.todos.count, oldCount,
+            "count must remain unchanged after toggling")
 
     }
 
@@ -85,7 +86,8 @@ final class AppTests: XCTestCase {
 
         todoManager.toggleCompletion(at: 0)
 
-        XCTAssertEqual(todoManager.todos[0].isCompleted, !oldCompletionStatus, "Toggle must change the completion status of the todo")
+        XCTAssertEqual(todoManager.todos[0].isCompleted, !oldCompletionStatus,
+            "Toggle must change the completion status of the todo")
     }
 
     func testInMemoryCache() {
@@ -98,9 +100,9 @@ final class AppTests: XCTestCase {
 
         let todos = cache.load()
 
-        XCTAssertEqual(todos?.count ?? 0, 2, "Loading should return the correct number of todos saved")
+        XCTAssertEqual(todos?.count ?? 0, 2,
+            "Loading should return the correct number of todos saved")
     }
-
 
     func testFileSystemCache() {
         let cache = JSONFileManagerCache(name: "test\(UUID())")
@@ -112,7 +114,8 @@ final class AppTests: XCTestCase {
 
         let todos = cache.load()
 
-        XCTAssertEqual(todos?.count ?? 0, 2, "Loading should return the correct number of todos saved")
+        XCTAssertEqual(todos?.count ?? 0, 2,
+            "Loading should return the correct number of todos saved")
     }
 
 }
